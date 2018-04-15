@@ -1,0 +1,5 @@
+n = str(input()).upper()
+s = float(input())
+vendas = float(input())
+ganho = s + (0.15*vendas)
+print('TOTAL = R$ {:.2f}'.format(ganho))
