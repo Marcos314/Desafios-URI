@@ -39,6 +39,5 @@ int main (){
 
 		printf("Fora de intervalo\n");
 
-
 	return 0;
 }
