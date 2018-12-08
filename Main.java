@@ -1,42 +1,80 @@
-import java.io.BufferedReader;
-import java.io.InputStreamReader;
-import java.io.IOException;
+package uri;
 
+ import java.util.Scanner;
+import java.util.Stack;
 
 public class Main {
-
-   
-    public static void main(String[] args) throws IOException {
-        BufferedReader ler = new BufferedReader (new InputStreamReader(System.in));
-        String entrada;
-        while((entrada=ler.readLine())!= null && entrada.length()>0) {
-            int numero = Integer.parseInt(entrada);
-            int vetor[] = new int [numero];
-            for(int i = 0; i < numero; i++){
-                vetor[i] = Integer.parseInt(ler.readLine()) ;
+    public static void main(String[] args) {
+        Scanner ler = new Scanner(System.in);
+        Stack entradaA= new Stack(); 		 //pilha para guardar quem está em A
+        
+        int qntdVag = ler.nextInt(); 			//quantidade de vagões
+        //arrays com o tamanho relativo a qntd de  vagões
+        int[] saida = new int[qntdVag];		
+        int[] entrada = new int[qntdVag];
+        int posAux = 0;
+         
+        while (qntdVag != 0) {		
+        	 
+            for (int i = 0; i < qntdVag; i++) {
+                saida[i] = ler.nextInt();       	// saida em A Ex:  [5,4,3,2,1]
+                if (saida[0] == 0) {				//numero de vagão > 0
+                    break;
+                }
+                entrada[i] = i + 1;    //Ex: entrada em A  [1,2,3,4,5]
             }
-            for(int i=0; i<numero;i++){
-                for(int j=0; j<numero-1;j++){
-                    if(vetor[j] > vetor [j+1]) {
-                        int auxiliar = vetor [j];
-                        vetor[j] = vetor[j+1];
-                        vetor[j+1]= auxiliar;
+            while (saida[0] != 0) {
+                for (int i = 0; i < qntdVag; i++) {
+                    entradaA.push(entrada[i]);   //a pilha recebe os valores armazenados na entrada em A, a remoção dessa pilha é a entrada em B
+                   
+                    /*se a pilha não estiver vazia e o elemento do topo (.peek) for igual o elemento na posAux no array saida entra no while. 
+                     *Esse laço abaixo vai remover todos os elementos da pilha caso o elemento do topo da pilha for igual ao primeiro elemento inserido
+                     *no vetor saida.
+                     * */
+                    while (!entradaA.isEmpty() && (Integer)entradaA.peek() == saida[posAux]) { 
+                        entradaA.pop(); //remove do top
+                        posAux += 1;	
                     }
                 }
+                //if para verificar se a pilha esta vazia ou não
+                if (entradaA.isEmpty()) {
+                    System.out.println("Yes");
+                } else {
+                    System.out.println("No");
+                }
+                
+                /*laço para a proxima entrada com os vagões permutados*/
+                 for (int i = 0; i < qntdVag; i++) {
+                    saida[i] = ler.nextInt();		
+                    //System.out.println(saida[i]);
+                    if (saida[0] == 0) {                   	
+                    	break;
+                        
+                    }
+                    entrada[i] = i + 1;
+                }
+                 
+                posAux = 0;			
+                entradaA.clear(); // remove todos os elementos da pilha
             }
-            for(int i=0; i<numero; i++){
-                System.out.println(vetor[i]);
-            }
-        }      
+            // Reinicio, entrada de outro trem
+            System.out.println();
+            entradaA.clear();
+            qntdVag = ler.nextInt();
+            saida = new int[qntdVag];
+            entrada = new int[qntdVag];
+            posAux = 0;
+        }
     }
 }
 /*
-7
-0752
-1110
-0001
-6322
-8000
-6321
-0000
+5
+5 4 3 2 1
+1 2 3 4 5
+5 4 1 2 3
+0
+6
+1 3 2 5 4 6
+0
+0
 */
