@@ -37,8 +37,14 @@ public class OrdenacaoPorTamanho {
 							j=j-1;
 						}
 						guardarP[j+1]=auxiliar;
-					}					
-				System.out.println(guardarP[i]);
+					}	
+					//formatando a saida retirando as virgulas e os colchetes
+					String saida = Arrays.toString(guardarP);
+					saida = saida.replaceAll(",", "");
+					saida = saida.replace("[", "");
+					saida = saida.replace("]", "");
+					System.out.println(saida);
+				
 					
 				}
 			}
